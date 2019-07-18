@@ -70,6 +70,8 @@ abstract class Styles {
   static var kokaEventCardColorBackground = Color.fromRGBO(253, 253, 253, 1);
   static var textEventCardHeader =
       TextStyle(fontSize: 20, fontFamily: "Lato", fontWeight: FontWeight.bold);
+  static var textEventCardLocation =
+      TextStyle(fontSize: 20, fontFamily: "Lato", fontWeight: FontWeight.w100,);
   static var textEventCardContent = TextStyle(
       fontSize: 18, fontFamily: "Lao Sangam MN", fontWeight: FontWeight.normal);
 

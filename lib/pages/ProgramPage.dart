@@ -1,3 +1,4 @@
+import 'package:apen_himmel/helpers/SharedPreferences.dart';
 import 'package:apen_himmel/helpers/appInfo_helper.dart';
 import 'package:apen_himmel/helpers/asset_helpers.dart';
 import 'package:apen_himmel/helpers/date_helper.dart';
@@ -78,14 +79,37 @@ class _ProgramPageState extends State<ProgramPage> {
 
   Widget _buildProgramListItem(
       BuildContext context, DocumentSnapshot document, shouldShowNewDayLabel) {
-    return (KokaCardEvent(
-        document: document,
-        short: true,
-        onTapAction: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ContentViewerPage(document)),
-            )));
+    var shouldShowEvent =
+        SharedPreferencesHelper.shouldShowDocument(document['track']);
+    return FutureBuilder(
+        future: shouldShowEvent,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return SizedBox.shrink();
+              break;
+            case ConnectionState.waiting:
+              return SizedBox.shrink();
+              break;
+            case ConnectionState.active:
+              return SizedBox.shrink();
+              break;
+            case ConnectionState.done:
+              if (snapshot.data) {
+                return KokaCardEvent(
+                  document: document,
+                  short: true,
+                  onTapAction: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ContentViewerPage(document)),
+                  ),
+                );
+              }
+              break;
+          }
+          return SizedBox.shrink();
+        });
   }
 
   Widget programList() {
@@ -108,6 +132,10 @@ class _ProgramPageState extends State<ProgramPage> {
               controller: _controller,
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
+//                bool shouldShowEvent =
+//                    SharedPreferencesHelper.shouldShowDocument(
+//                        snapshot.data.documents[index]['track']);
+//                print("$index $shouldShowEvent");
                 bool shouldShowNewDayLabel = index == 0 ? true : false;
                 if (index > 0) {
                   int lastOne = index - 1;
@@ -119,15 +147,12 @@ class _ProgramPageState extends State<ProgramPage> {
                     nextEventPosition += 60;
                   }
                 }
-                bool shouldShowEvent = shouldShowDocument();
-                if (shouldShowEvent) {
-                  nextEventPosition += 80;
-                }
-                if ((snapshot.data.documents[index]['startTime'] as Timestamp)
-                        .millisecondsSinceEpoch >=
-                    Timestamp.now().millisecondsSinceEpoch) {
-                  activeEventPosition.add(nextEventPosition);
-                }
+//                bool shouldShowEvent =true;
+////                    SharedPreferencesHelper.shouldShowDocument(
+////                        snapshot.data.documents[index]['track']);
+//                if (shouldShowEvent) {
+//                  nextEventPosition += 80;
+//                }
                 return Column(
                   children: <Widget>[
                     shouldShowNewDayLabel
@@ -135,12 +160,11 @@ class _ProgramPageState extends State<ProgramPage> {
                             document: snapshot.data.documents[index],
                           )
                         : SizedBox.shrink(),
-                    shouldShowEvent
-                        ? _buildProgramListItem(
-                            context,
-                            snapshot.data.documents[index],
-                            shouldShowNewDayLabel)
-                        : SizedBox.shrink(),
+//                    shouldShowEvent
+//                        ?
+                    _buildProgramListItem(context,
+                        snapshot.data.documents[index], shouldShowNewDayLabel)
+//                        : SizedBox.shrink(),
                   ],
                 );
               });
@@ -204,13 +228,6 @@ class _ProgramPageState extends State<ProgramPage> {
 
   double getPositionOfActiveEvent() {
     return activeEventPosition[0];
-  }
-
-  bool shouldShowDocument() {
-//    snapshot.data.documents[index]['track']
-//        .toString()
-//        .contains(AppInfo.mainTrack);
-    return true;
   }
 }
 

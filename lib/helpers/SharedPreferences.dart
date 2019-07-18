@@ -14,7 +14,13 @@ class SharedPreferencesHelper {
   static Future<bool> setPushValue(String key, bool value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final FirebaseMessaging _fcm = FirebaseMessaging();
-    value != null ? _fcm.subscribeToTopic(key) : _fcm.unsubscribeFromTopic(key);
+    if (value) {
+      addTrack(key);
+      _fcm.subscribeToTopic(key);
+    } else {
+      removeTrack(key);
+      _fcm.unsubscribeFromTopic(key);
+    }
     bool result;
     await prefs.setBool(key, value).then((action) {
       result = action;
@@ -52,5 +58,46 @@ class SharedPreferencesHelper {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     Future<bool> result = prefs.setBool('firstStart', shouldShow);
     return result;
+  }
+
+  static Future<dynamic> getMyTracks() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var result = prefs.getStringList('MyTracks');
+    return result;
+  }
+
+  static addTrack(String track) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> myTracks = await getMyTracks();
+    if (myTracks != null) {
+      myTracks.add(track);
+    } else {
+      myTracks = ['$track'];
+    }
+    print('Added $track \nMyTracks => $myTracks');
+    prefs.setStringList('MyTracks', myTracks);
+  }
+
+  static removeTrack(String track) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> myTracks = await getMyTracks();
+    if (myTracks != null) {
+      myTracks.remove(track);
+    }
+    print('removed $track \nMyTracks => $myTracks');
+    prefs.setStringList('MyTracks', myTracks);
+  }
+
+  static shouldShowDocument(List tracks) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tracksToShow = prefs.getStringList('MyTracks');
+    var shouldShow = false;
+    tracks.toList().forEach((track) {
+      if (tracksToShow.contains(track)) {
+        shouldShow = true;
+      }
+      return shouldShow;
+    });
+    return shouldShow;
   }
 }
