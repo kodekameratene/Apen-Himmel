@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "809905431385",
+    "firebase_url": "https://apen-himmel.firebaseio.com",
+    "project_id": "apen-himmel",
+    "storage_bucket": "apen-himmel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809905431385:android:e1e77aa5dcefc4b5",
+        "android_client_info": {
+          "package_name": "com.imikirken.apenhimmel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809905431385-jb6t2gh86rrk0t77d6pd0hq8lqu6kr3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB32y7B0_oaL9cwWezdxz1oNpdBmCVtEPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809905431385-jb6t2gh86rrk0t77d6pd0hq8lqu6kr3m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "809905431385-1thaslmihh0ge3oh47ua2dproinniden.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.imikirken.apenhimmel"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

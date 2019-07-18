@@ -19,7 +19,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     SharedPreferencesHelper.getShouldShowStartupScreen().then((v) {
-      showWelcomeScreen = true;
+      showWelcomeScreen = v;
     });
     if (showWelcomeScreen) {
       return Material(
