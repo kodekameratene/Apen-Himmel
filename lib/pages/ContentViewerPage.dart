@@ -86,7 +86,7 @@ class ContentViewerPage extends StatelessWidget {
         );
 
   Widget showSeminars() {
-    if (_exists('group')) {
+    if (_exists('header')) {
       String group = document['group'][0].toString();
       print(group);
       return StreamBuilder(
@@ -128,7 +128,10 @@ class ContentViewerPage extends StatelessWidget {
       BuildContext context, DocumentSnapshot document, myTracks) {
     bool shouldShowDocument = false;
     myTracks.forEach((track) {
-      if (document['track'].toString().contains(track)) {
+
+       bool isSub = !((document['header'] ?? '') != '');
+
+      if (document['track'].toString().contains(track) && isSub) {
         shouldShowDocument = true;
         return;
       }
