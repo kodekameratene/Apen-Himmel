@@ -1,8 +1,7 @@
 import 'package:apen_himmel/helpers/SharedPreferences.dart';
+import 'package:apen_himmel/helpers/mapTrackToColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import '../../styles.dart';
 
 class PushSwitch extends StatefulWidget {
   PushSwitch({Key key, this.pushKey, this.highlight = false}) : super(key: key);
@@ -38,7 +37,7 @@ class _PushSwitchState extends State<PushSwitch> {
                     Switch(
                       value: false,
                       onChanged: (bool value) {},
-                      activeColor: Styles.colorSecondary,
+                      activeColor: mapTrackToStartColor(widget.pushKey),
                     ),
                   ],
                 ),
@@ -67,7 +66,8 @@ class _PushSwitchState extends State<PushSwitch> {
                               widget.pushKey, value);
                         });
                       },
-                      activeColor: Styles.colorSecondary,
+                      activeColor: mapTrackToStartColor(widget.pushKey),
+                      activeTrackColor: mapTrackToStartColor(widget.pushKey),
                     ),
                   ],
                 ),
@@ -75,7 +75,8 @@ class _PushSwitchState extends State<PushSwitch> {
             );
             break;
         }
-        return Text("Ops! Hva skjedde nå? Vennligst send et skjermbilde av dette til utvikler");
+        return Text(
+            "Ops! Hva skjedde nå? Vennligst send et skjermbilde av dette til utvikler");
       },
     );
   }

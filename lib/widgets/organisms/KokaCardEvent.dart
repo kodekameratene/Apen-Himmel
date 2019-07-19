@@ -38,8 +38,8 @@ class KokaCardEvent extends StatelessWidget {
         ? mapTrackToStartColor(document['track'][0].toString())
         : mapTrackToStartColor('default');
     final Color colorEnd = _exists('track')
-        ? mapTrackToEndColor(document['track'][0].toString())
-        : mapTrackToEndColor('default');
+        ? mapTrackToStartColor(document['track'][0].toString())
+        : mapTrackToStartColor('default');
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
