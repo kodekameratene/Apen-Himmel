@@ -69,7 +69,7 @@ class SharedPreferencesHelper {
       }
       return result;
     } else {
-      result.add("Felles");
+      addTrack("Felles");
       return ['Felles'];
     }
   }
