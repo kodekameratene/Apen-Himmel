@@ -20,11 +20,6 @@ class NewsPage extends StatelessWidget {
   Widget build(context) {
     return Material(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Styles.colorPrimary,
-          title: AssetHelpers.getAppBarImage(),
-          centerTitle: true,
-        ),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection(AppInfo.dbCollectionContent)

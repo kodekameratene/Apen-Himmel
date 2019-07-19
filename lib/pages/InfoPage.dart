@@ -1,5 +1,4 @@
 import 'package:apen_himmel/helpers/appInfo_helper.dart';
-import 'package:apen_himmel/helpers/asset_helpers.dart';
 import 'package:apen_himmel/widgets/organisms/KokaCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +20,6 @@ class InfoPage extends StatelessWidget {
   Widget build(context) {
     return Material(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Styles.colorPrimary,
-          title: AssetHelpers.getAppBarImage(),
-          centerTitle: true,
-        ),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection(AppInfo.dbCollectionContent)

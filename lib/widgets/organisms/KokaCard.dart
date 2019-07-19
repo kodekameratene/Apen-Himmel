@@ -41,10 +41,12 @@ class KokaCard extends StatelessWidget {
     }
     final String title = document['title'] ?? '';
     final String content = document['content'] ?? '';
-    final Color colorStart =
-        mapTrackToStartColor(document['track'][0].toString());
-    final Color colorEnd =
-        mapTrackToEndColor(document['track'][0].toString());
+    final Color colorStart = _exists('track')
+        ? mapTrackToStartColor(document['track'][0].toString())
+        : mapTrackToStartColor('default');
+    final Color colorEnd = _exists('track')
+        ? mapTrackToEndColor(document['track'][0].toString())
+        : mapTrackToEndColor('default');
     return Padding(
       padding: padding,
       child: Container(
@@ -119,7 +121,9 @@ class TimePostedField extends StatelessWidget {
   Widget build(BuildContext context) {
     if (timePosted != null) {
       return Padding(
-        padding: const EdgeInsets.only(top: 8,),
+        padding: const EdgeInsets.only(
+          top: 8,
+        ),
         child: Text(
           "Publisert $timePosted",
           style: Styles.textCardTimePosted,

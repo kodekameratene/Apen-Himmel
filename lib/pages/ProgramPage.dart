@@ -33,11 +33,6 @@ class _ProgramPageState extends State<ProgramPage> {
   Widget build(context) {
     return Material(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Styles.colorPrimary,
-          title: AssetHelpers.getAppBarImage(),
-          centerTitle: true,
-        ),
         body: SafeArea(
           child: Stack(
             children: <Widget>[
