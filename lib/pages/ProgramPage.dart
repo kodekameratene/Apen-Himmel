@@ -1,6 +1,5 @@
 import 'package:apen_himmel/helpers/SharedPreferences.dart';
 import 'package:apen_himmel/helpers/appInfo_helper.dart';
-import 'package:apen_himmel/helpers/asset_helpers.dart';
 import 'package:apen_himmel/helpers/date_helper.dart';
 import 'package:apen_himmel/widgets/organisms/DayButton.dart';
 import 'package:apen_himmel/widgets/organisms/KokaCardEvent.dart';
@@ -53,14 +52,14 @@ class _ProgramPageState extends State<ProgramPage> {
 
   Widget _buildProgramListItem(BuildContext context, DocumentSnapshot document,
       shouldShowNewDayLabel, myTracks) {
-    bool shouldShowEvent = false;
+    bool shouldShowDocument = false;
     myTracks.forEach((track) {
-      if (document['track'].toString().contains(track)) {
-        shouldShowEvent = true;
+      if (document['track'].toString().contains(track.toString())) {
+        shouldShowDocument = true;
         return;
       }
     });
-    return shouldShowEvent
+    return shouldShowDocument
         ? KokaCardEvent(
             document: document,
             short: true,

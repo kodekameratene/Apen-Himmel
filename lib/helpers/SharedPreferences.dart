@@ -63,10 +63,15 @@ class SharedPreferencesHelper {
   static Future<dynamic> getMyTracks() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var result = prefs.getStringList('MyTracks');
-    if (!result.contains("Felles")) {
+    if (result != null) {
+      if (!result.contains("Felles")) {
+        result.add("Felles");
+      }
+      return result;
+    } else {
       result.add("Felles");
+      return ['Felles'];
     }
-    return result;
   }
 
   static addTrack(String track) async {

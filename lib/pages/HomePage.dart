@@ -1,5 +1,6 @@
 import 'package:apen_himmel/config/application.dart';
 import 'package:apen_himmel/helpers/SharedPreferences.dart';
+import 'package:apen_himmel/helpers/SharedPreferences.dart' as prefix0;
 import 'package:apen_himmel/helpers/asset_helpers.dart';
 import 'package:apen_himmel/pages/InfoPage.dart';
 import 'package:apen_himmel/pages/NewsPage.dart';
@@ -118,7 +119,9 @@ class HomePageState extends State<HomePage> {
                     Divider(height: 0),
                     PushSwitch(pushKey: 'KidsCamp'),
                     Divider(height: 0),
-                    PushSwitch(pushKey: 'Teltet'),
+                    PushSwitch(pushKey: 'TweensCamp'),
+                    Divider(height: 0),
+                    PushSwitch(pushKey: 'TELTET'),
                     Divider(),
                     Padding(
                       padding: const EdgeInsets.all(10),
@@ -139,6 +142,7 @@ class HomePageState extends State<HomePage> {
                     SharedPreferencesHelper.setShouldShowStartupScreen(false);
                     setState(() {
                       showWelcomeScreen = false;
+                      SharedPreferencesHelper.getMyTracks();
                     });
                   },
                   splashColor: Styles.colorSecondary,

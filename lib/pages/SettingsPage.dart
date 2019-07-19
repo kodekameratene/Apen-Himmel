@@ -84,7 +84,8 @@ class _SettingsPageState extends State<SettingsPage> {
         buildPushSwitch('VoksenCamp'),
         buildPushSwitch('YouthCamp'),
         buildPushSwitch('KidsCamp'),
-        buildPushSwitch('Teltet'),
+        buildPushSwitch('TweensCamp'),
+        buildPushSwitch('TELTET'),
         showSecrets ? buildPushSwitch('Developer') : SizedBox.shrink(),
       ],
     );
