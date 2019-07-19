@@ -47,7 +47,7 @@ abstract class Styles {
   static var colorAccentTrackFellesEnd = Color(0xffC8E9A0);
 
   // YouthCamp
-  static var colorAccentTrackYouthCampStart = Color(0xffDE3010);
+  static var colorAccentTrackYouthCampStart = Color(0xffED4B36);
   static var colorAccentTrackYouthCampEnd = Color(0xffA13D63);
 
   // VoksenCamp
@@ -55,11 +55,11 @@ abstract class Styles {
   static var colorAccentTrackVoksenCampEnd = Color(0xff6DD3CE);
 
   // KidsCamp
-  static var colorAccentTrackKidsCampStart = Color(0xff2D2376);
+  static var colorAccentTrackKidsCampStart = Color(0xff8080FF);
   static var colorAccentTrackKidsCampEnd = Color(0xffE5F4E3);
 
   // TweensCamp
-  static var colorAccentTrackTweensCampStart = Color(0xff06D6A0);
+  static var colorAccentTrackTweensCampStart = Color(0xffEB7D34);
   static var colorAccentTrackTweensCampEnd = Color(0xffE5F4E3);
 
   // Teltet
