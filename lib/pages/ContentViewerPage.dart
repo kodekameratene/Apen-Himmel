@@ -63,30 +63,27 @@ class ContentViewerPage extends StatelessWidget {
   Widget buildKokaButton() =>
       _exists('url') ? KokaButton(url: document['url']) : SizedBox.shrink();
 
-  Widget buildKokaCard() =>
-      _exists('content')
-          ? KokaCard(
+  Widget buildKokaCard() => _exists('content')
+      ? KokaCard(
           document: document,
           padding: EdgeInsets.only(
             left: 10,
             right: 10,
           ))
-          : SizedBox.shrink();
+      : SizedBox.shrink();
 
-  Widget buildKokaCardEvent() =>
-      _exists('startTime')
-          ? KokaCardEvent(
-        document: document,
-        short: false,
-      )
-          : SizedBox.shrink();
+  Widget buildKokaCardEvent() => _exists('startTime')
+      ? KokaCardEvent(
+          document: document,
+          short: false,
+        )
+      : SizedBox.shrink();
 
-  Widget buildImg(context) =>
-      _exists('img')
-          ? KokaImg(document: document)
-          : Container(
-        height: 10,
-      );
+  Widget buildImg(context) => _exists('img')
+      ? KokaImg(document: document)
+      : Container(
+          height: 10,
+        );
 
   Widget showSeminars() {
     if (_exists('header')) {
@@ -108,11 +105,8 @@ class ContentViewerPage extends StatelessWidget {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) =>
-                          _buildSeminarItem(
-                              context,
-                              snapshot.data.documents[index],
-                              myTracks));
+                      itemBuilder: (context, index) => _buildSeminarItem(
+                          context, snapshot.data.documents[index], myTracks));
                 });
           });
     }
@@ -127,8 +121,8 @@ class ContentViewerPage extends StatelessWidget {
     return ((document[s] ?? '') != '');
   }
 
-  Widget _buildSeminarItem(BuildContext context, DocumentSnapshot document,
-      myTracks) {
+  Widget _buildSeminarItem(
+      BuildContext context, DocumentSnapshot document, myTracks) {
     bool shouldShowDocument = false;
     myTracks.forEach((track) {
       bool isSub = !((document['header'] ?? '') != '');
@@ -139,33 +133,27 @@ class ContentViewerPage extends StatelessWidget {
       }
     });
 
-    bool hasStartTime = §
-    ((document['startTime'] ?? '') != '');
+    bool hasStartTime = ((document['startTime'] ?? '') != '');
 
     if (hasStartTime) {
       return shouldShowDocument
           ? KokaCardEvent(
-          document: document,
-          short: true,
-          onTapAction: () =>
-              Navigator.push(
+              document: document,
+              short: true,
+              onTapAction: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ContentViewerPage(document)))
-      )
+                      builder: (context) => ContentViewerPage(document))))
           : SizedBox.shrink();
-    }
-    else
+    } else
       return shouldShowDocument
           ? KokaCard(
-          document: document,
-          short: true,
-          onTapAction: () =>
-              Navigator.push(
+              document: document,
+              short: true,
+              onTapAction: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ContentViewerPage(document)))
-      )
+                      builder: (context) => ContentViewerPage(document))))
           : SizedBox.shrink();
   }
 }
