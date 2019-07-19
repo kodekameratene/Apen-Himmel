@@ -8,6 +8,8 @@ import 'package:apen_himmel/widgets/organisms/KokaCardEvent.dart';
 import 'package:apen_himmel/widgets/organisms/TimeBox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:apen_himmel/helpers/appInfo_helper.dart';
+import 'package:apen_himmel/helpers/SharedPreferences.dart';
 
 import '../styles.dart';
 
@@ -38,6 +40,7 @@ class ContentViewerPage extends StatelessWidget {
                   buildTimeBox(),
                   buildLocationBox(),
                   buildTrackBox(),
+                  showSeminars(),
                 ],
               )),
         ),
@@ -82,11 +85,63 @@ class ContentViewerPage extends StatelessWidget {
           height: 10,
         );
 
-  /// Checks if the document have a field
-  /// that matches the provided string.
-  /// Returns True if the string does exist,
-  /// and False if not.
-  _exists(String s) {
-    return ((document[s] ?? '') != '');
+  Widget showSeminars() {
+    if (_exists('group')) {
+      String group = document['group'][0].toString();
+      print(group);
+      return StreamBuilder(
+          stream: Firestore.instance
+              .collection(AppInfo.dbCollectionContent)
+              .where("group", arrayContains: group)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(child: Text("Laster inn data..."));
+            return FutureBuilder(
+                future: SharedPreferencesHelper.getMyTracks(),
+                builder: (BuildContext context, AsyncSnapshot trackSnapshot) {
+                  var myTracks = trackSnapshot.data;
+                  return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) =>
+                          _buildSeminarItem(
+                              context,
+                              snapshot.data.documents[index],
+                              myTracks));
+                });
+          });
+    }
+    return SizedBox.shrink();
   }
-}
+  
+    /// Checks if the document have a field
+    /// that matches the provided string.
+    /// Returns True if the string does exist,
+    /// and False if not.
+    _exists(String s) {
+      return ((document[s] ?? '') != '');
+    }
+
+  Widget _buildSeminarItem(
+      BuildContext context, DocumentSnapshot document, myTracks) {
+    bool shouldShowDocument = false;
+    myTracks.forEach((track) {
+      if (document['track'].toString().contains(track)) {
+        shouldShowDocument = true;
+        return;
+      }
+    });
+      return shouldShowDocument
+          ? KokaCardEvent(
+          document: document,
+          short: true,
+          onTapAction: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ContentViewerPage(document)))
+      )
+    : SizedBox.shrink();
+  }
+  }
