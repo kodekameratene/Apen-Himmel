@@ -100,13 +100,63 @@ class ContentViewerPage extends StatelessWidget {
             return FutureBuilder(
                 future: SharedPreferencesHelper.getMyTracks(),
                 builder: (BuildContext context, AsyncSnapshot trackSnapshot) {
-                  var myTracks = trackSnapshot.data;
-                  return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) => _buildSeminarItem(
-                          context, snapshot.data.documents[index], myTracks));
+                  switch (trackSnapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(
+                                "Ingen forbindelse",
+                                style: Styles.textEventCardHeader,
+                              ),
+                            ),
+                            Text(
+                              "Er du koblet på internett?",
+                              style: Styles.textEventCardContent,
+                            ),
+                          ],
+                        ),
+                      );
+                      break;
+                    case ConnectionState.waiting:
+                      continue loading;
+                    loading:
+                    case ConnectionState.active:
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Styles.colorPrimary),
+                              ),
+                            ),
+                            Text(
+                              "Oppdaterer data...",
+                              style: Styles.textEventCardContent,
+                            ),
+                          ],
+                        ),
+                      );
+                      break;
+                    case ConnectionState.done:
+                      var myTracks = trackSnapshot.data;
+                      return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) => _buildSeminarItem(
+                              context,
+                              snapshot.data.documents[index],
+                              myTracks));
+                      break;
+                  }
+                  return Text("Hello");
                 });
           });
     }
