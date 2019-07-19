@@ -1,3 +1,4 @@
+import 'package:apen_himmel/helpers/SharedPreferences.dart';
 import 'package:apen_himmel/helpers/appInfo_helper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluro/fluro.dart';
@@ -48,6 +49,7 @@ class AppComponentState extends State<AppComponent> {
       print(_homeScreenText);
       _firebaseMessaging.subscribeToTopic('Felles');
     });
+    SharedPreferencesHelper.getMyTracks();
   }
 
   AppComponentState() {

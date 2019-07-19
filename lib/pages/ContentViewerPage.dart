@@ -20,14 +20,12 @@ class ContentViewerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70),
-          child: AppBar(
-            backgroundColor: Styles.colorPrimary,
-            title: AssetHelpers.getAppBarImage(),
-            centerTitle: true,
-          ),
+        appBar: AppBar(
+          backgroundColor: Styles.colorPrimary,
+          title: AssetHelpers.getAppBarImage(),
+          centerTitle: true,
         ),
+        backgroundColor: Styles.colorBackgroundColorMain,
         body: Center(
           child: Padding(
               padding: const EdgeInsets.all(8.0),

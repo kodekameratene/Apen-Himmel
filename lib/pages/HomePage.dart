@@ -1,8 +1,11 @@
 import 'package:apen_himmel/config/application.dart';
 import 'package:apen_himmel/helpers/SharedPreferences.dart';
+import 'package:apen_himmel/helpers/SharedPreferences.dart' as prefix0;
 import 'package:apen_himmel/helpers/asset_helpers.dart';
+import 'package:apen_himmel/pages/InfoPage.dart';
+import 'package:apen_himmel/pages/NewsPage.dart';
+import 'package:apen_himmel/pages/ProgramPage.dart';
 import 'package:apen_himmel/widgets/molecules/PushSwitch.dart';
-import 'package:apen_himmel/widgets/organisms/kokaCardHeader.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -22,103 +25,13 @@ class HomePageState extends State<HomePage> {
       showWelcomeScreen = v;
     });
     if (showWelcomeScreen) {
-      return Material(
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(70),
-            child: AppBar(
-              elevation: 0,
-              title: AssetHelpers.getAppBarImage(),
-              centerTitle: true,
-              backgroundColor: Styles.colorPrimary,
-            ),
-          ),
-          backgroundColor: Styles.colorPrimary,
-          body: SafeArea(
-            child: ListView(
-              children: <Widget>[
-                Divider(),
-                Container(
-                  margin: EdgeInsets.all(10),
-                  color: Styles.colorBackgroundColorMain,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Hva som vises i Appen",
-                          style: Styles.kokaCardNewsTextHeader,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Slå på det du vil holde deg oppdatert på.",
-                          style: Styles.kokaCardNewsTextContent,
-                        ),
-                      ),
-                      PushSwitch(pushKey: 'VoksenCamp'),
-                      Divider(height: 0),
-                      PushSwitch(pushKey: 'YouthCamp'),
-                      Divider(height: 0),
-                      PushSwitch(pushKey: 'KidsCamp'),
-                      Divider(height: 0),
-                      PushSwitch(pushKey: 'Teltet'),
-                      Divider(),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Wrap(
-                          children: <Widget>[
-                            Text(
-                                "NB. Du kan når som helst ombestemme deg ved en senere anledning."),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: InkWell(
-                    onTap: () {
-                      SharedPreferencesHelper.setShouldShowStartupScreen(false);
-                      setState(() {
-                        showWelcomeScreen = false;
-                      });
-                    },
-                    splashColor: Styles.colorSecondary,
-                    child: Container(
-                      color: Colors.white10,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          children: <Widget>[
-                            Icon(
-                              Icons.navigate_next,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              "Gå videre",
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
+      return buildWelcomeScreen();
     }
-    return Material(
-        child: Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AppBar(
+    return MaterialApp(
+        home: DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
           elevation: 0,
           title: AssetHelpers.getAppBarImage(),
           centerTitle: true,
@@ -131,80 +44,133 @@ class HomePageState extends State<HomePage> {
             },
           ),
         ),
-      ),
-      backgroundColor: Styles.colorBackgroundColorMain,
-      body: ListView(children: <Widget>[
-        Column(
+        bottomNavigationBar: menu(),
+        backgroundColor: Styles.colorBackgroundColorMain,
+        body: TabBarView(
           children: <Widget>[
-            kokaCardHeader(
-                categoryStyle: TextStyle(
-                  fontSize: 28,
-                  fontFamily: "Didot",
-                ),
-                category: "Nyheter",
-                title: "Nyheter",
-                content:
-                    "Her sender vi deg meldinger om hva som skjer, når det skjer.",
-                onTapAction: () => Application.router.navigateTo(
-                    context, "/news",
-                    transition: TransitionType.native)),
-            kokaCardHeader(
-                categoryStyle: TextStyle(
-                  fontSize: 28,
-                  fontFamily: "BungeeShade",
-                ),
-                category: "Program",
-                title: "Program",
-                content: "Her finner du programmet for uken.",
-                onTapAction: () => Application.router.navigateTo(
-                    context, "/program",
-                    transition: TransitionType.native)),
-            kokaCardHeader(
-                categoryStyle: TextStyle(
-                  fontSize: 28,
-                  fontFamily: "Quattrocento_Sans",
-                ),
-                category: "informasjon",
-                title: "Informasjon",
-                content: "Her finner du relevant informasjon for en super uke.",
-                onTapAction: () => Application.router.navigateTo(
-                    context, "/info",
-                    transition: TransitionType.native)),
-            Divider(),
-//            Padding(
-//              padding: const EdgeInsets.all(8.0),
-//              child: Text("Sponsor og Standholdere"),
-//            ),
+            Container(child: NewsPage()),
+            Container(child: ProgramPage()),
+            Container(child: InfoPage()),
           ],
         ),
-//        Padding(
-//          padding: EdgeInsets.all(10),
-//          child: Material(
-//            color: Colors.white,
-//            child: InkWell(
-//              onTap: () => Application.router.navigateTo(context, "/sponsor",
-//                  transition: TransitionType.native),
-//              splashColor: Styles.colorPrimary,
-//              child: Container(
-//                child: Padding(
-//                  padding: const EdgeInsets.all(10),
-//                  child: Column(
-//                    children: <Widget>[
-//                      AssetHelpers.getMainSponsorImage(),
-//                      Padding(
-//                        padding: const EdgeInsets.all(10),
-//                        child: Text(
-//                          "Les mer fra vår hovedsponsor Knif Trygghet og standholdere",
-//                        ),
-//                      )
-//                    ],
-//                  ),
-//                ),
-//              ),
-//            ),
-//          ),
-//        )
-      ]),
+      ),
     ));
+  }
+
+  Widget menu() {
+    return Container(
+      color: Styles.colorPrimary,
+      child: TabBar(
+        indicatorColor: Styles.colorSecondary,
+        tabs: [
+          Tab(
+            text: "Nyheter",
+            icon: Icon(Icons.notifications_active),
+          ),
+          Tab(
+            text: "Program",
+            icon: Icon(Icons.calendar_today),
+          ),
+          Tab(
+            text: "Info",
+            icon: Icon(Icons.info),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Material buildWelcomeScreen() {
+    return Material(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          title: AssetHelpers.getAppBarImage(),
+          centerTitle: true,
+          backgroundColor: Styles.colorPrimary,
+        ),
+        backgroundColor: Styles.colorPrimary,
+        body: SafeArea(
+          child: ListView(
+            children: <Widget>[
+              Divider(),
+              Container(
+                margin: EdgeInsets.all(10),
+                color: Styles.colorBackgroundColorMain,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Hva som vises i Appen",
+                        style: Styles.kokaCardNewsTextHeader,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Slå på det du vil holde deg oppdatert på.",
+                        style: Styles.kokaCardNewsTextContent,
+                      ),
+                    ),
+                    PushSwitch(pushKey: 'VoksenCamp'),
+                    Divider(height: 0),
+                    PushSwitch(pushKey: 'YouthCamp'),
+                    Divider(height: 0),
+                    PushSwitch(pushKey: 'KidsCamp'),
+                    Divider(height: 0),
+                    PushSwitch(pushKey: 'TweensCamp'),
+                    Divider(height: 0),
+                    PushSwitch(pushKey: 'TELTET'),
+                    Divider(),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Wrap(
+                        children: <Widget>[
+                          Text(
+                              "NB. Du kan når som helst ombestemme deg ved en senere anledning."),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: InkWell(
+                  onTap: () {
+                    SharedPreferencesHelper.setShouldShowStartupScreen(false);
+                    setState(() {
+                      showWelcomeScreen = false;
+                      SharedPreferencesHelper.getMyTracks();
+                    });
+                  },
+                  splashColor: Styles.colorSecondary,
+                  child: Container(
+                    color: Colors.white10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: <Widget>[
+                          Icon(
+                            Icons.navigate_next,
+                            size: 50,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Gå videre",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

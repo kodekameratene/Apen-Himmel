@@ -12,7 +12,9 @@ abstract class Styles {
   static const colorWeatherSunColor = Color.fromRGBO(255, 216, 0, 1);
   static var colorShadowCardMain = Color.fromRGBO(0, 0, 0, 0.06);
 
+  ////////////////////////////////////////////////////////
   // AccentColors for our Categories
+  ////////////////////////////////////////////////////////
   //  Mat
   static var colorAccentCategoryFoodStart = Color(0xff6DD3CE);
   static var colorAccentCategoryFoodEnd = Color(0xffC8E9A0);
@@ -36,6 +38,35 @@ abstract class Styles {
   // Forestilling
   static var colorAccentCategoryPerformanceStart = Color(0xffFAF3DD);
   static var colorAccentCategoryPerformanceEnd = Color(0xff8FC0A9);
+
+  ////////////////////////////////////////////////////////
+  // AccentColors for our Tracks
+  ////////////////////////////////////////////////////////
+  //  Felles
+  static var colorAccentTrackFellesStart = Color(0xff6DD3CE);
+  static var colorAccentTrackFellesEnd = Color(0xffC8E9A0);
+
+  // YouthCamp
+  static var colorAccentTrackYouthCampStart = Color(0xffF7A278);
+  static var colorAccentTrackYouthCampEnd = Color(0xffA13D63);
+
+  // VoksenCamp
+  static var colorAccentTrackVoksenCampStart = Color(0xffC8E9A0);
+  static var colorAccentTrackVoksenCampEnd = Color(0xff6DD3CE);
+
+  // KidsCamp
+  static var colorAccentTrackKidsCampStart = Color(0xff5DA9E9);
+  static var colorAccentTrackKidsCampEnd = Color(0xffE5F4E3);
+
+  // TweensCamp
+  static var colorAccentTrackTweensCampStart = Color(0xffA13D63);
+  static var colorAccentTrackTweensCampEnd = Color(0xffE5F4E3);
+
+  // Teltet
+  static var colorAccentTrackTeltetStart = Color(0xffFAF3DD);
+  static var colorAccentTrackTeltetEnd = Color(0xff8FC0A9);
+
+  ////////////////////////////////////////////////////////
 
   // Images
   static const imgLogoMain = "lib/assets/sommerfestival.png";
@@ -70,6 +101,11 @@ abstract class Styles {
   static var kokaEventCardColorBackground = Color.fromRGBO(253, 253, 253, 1);
   static var textEventCardHeader =
       TextStyle(fontSize: 20, fontFamily: "Lato", fontWeight: FontWeight.bold);
+  static var textEventCardLocation = TextStyle(
+    fontSize: 20,
+    fontFamily: "Lato",
+    fontWeight: FontWeight.w100,
+  );
   static var textEventCardContent = TextStyle(
       fontSize: 18, fontFamily: "Lao Sangam MN", fontWeight: FontWeight.normal);
 

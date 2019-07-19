@@ -1,5 +1,5 @@
 import 'package:apen_himmel/helpers/convertTimeStamp_helper.dart';
-import 'package:apen_himmel/helpers/mapCategoryToColor.dart';
+import 'package:apen_himmel/helpers/mapTrackToColor.dart';
 import 'package:apen_himmel/widgets/atoms/ColorStrip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +41,12 @@ class KokaCard extends StatelessWidget {
     }
     final String title = document['title'] ?? '';
     final String content = document['content'] ?? '';
-    final Color colorStart =
-        mapCategoryToStartColor(document['category'].toString());
-    final Color colorEnd =
-        mapCategoryToEndColor(document['category'].toString());
+    final Color colorStart = _exists('track')
+        ? mapTrackToStartColor(document['track'][0].toString())
+        : mapTrackToStartColor('default');
+    final Color colorEnd = _exists('track')
+        ? mapTrackToEndColor(document['track'][0].toString())
+        : mapTrackToEndColor('default');
     return Padding(
       padding: padding,
       child: Container(
@@ -119,7 +121,9 @@ class TimePostedField extends StatelessWidget {
   Widget build(BuildContext context) {
     if (timePosted != null) {
       return Padding(
-        padding: const EdgeInsets.only(top: 8,),
+        padding: const EdgeInsets.only(
+          top: 8,
+        ),
         child: Text(
           "Publisert $timePosted",
           style: Styles.textCardTimePosted,

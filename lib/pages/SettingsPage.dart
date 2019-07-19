@@ -20,15 +20,13 @@ class _SettingsPageState extends State<SettingsPage> {
     return Material(
       child: Scaffold(
         backgroundColor: Styles.colorBackgroundColorMain,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70),
-          child: AppBar(
-            title: Text(
-              "Instillinger",
-              style: Styles.textAppBar,
-            ),
-            backgroundColor: Styles.colorPrimary,
+        appBar: AppBar(
+          title: Text(
+            "Instillinger",
+            style: Styles.textAppBar,
           ),
+          centerTitle: true,
+          backgroundColor: Styles.colorPrimary,
         ),
         body: Container(
           color: Styles.kokaEventCardColorBackground,
@@ -86,7 +84,8 @@ class _SettingsPageState extends State<SettingsPage> {
         buildPushSwitch('VoksenCamp'),
         buildPushSwitch('YouthCamp'),
         buildPushSwitch('KidsCamp'),
-        buildPushSwitch('Teltet'),
+        buildPushSwitch('TweensCamp'),
+        buildPushSwitch('TELTET'),
         showSecrets ? buildPushSwitch('Developer') : SizedBox.shrink(),
       ],
     );
