@@ -20,7 +20,7 @@ Color mapTrackToStartColor(String track) {
   if (track.contains('TweensCamp')) {
     return Styles.colorAccentTrackTweensCampStart;
   }
-  if (track.contains('Teltet')) {
+  if (track.contains('TELTET')) {
     return Styles.colorAccentTrackTeltetStart;
   }
   if (track.contains('Felles')) {
