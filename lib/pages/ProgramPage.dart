@@ -20,7 +20,6 @@ class _ProgramPageState extends State<ProgramPage> {
   List<DayButton> list = new List<DayButton>();
   List<String> days = new List<String>();
   List<String> daySeparators = new List<String>();
-  double nextEventPosition;
   List<double> activeEventPosition = new List<double>();
 
   ScrollController _controller;
@@ -50,25 +49,8 @@ class _ProgramPageState extends State<ProgramPage> {
                   Flexible(
                     child: programList(),
                   ),
-//              Container(
-//                  color: Styles.colorPrimary,
-//                  height: 82,
-//                  child: dayButtonList()),
                 ],
               ),
-//              Padding(
-//                padding: const EdgeInsets.all(10),
-//                child: Align(
-//                    alignment: Alignment(1, 1),
-//                    child: FloatingActionButton(
-//                      child: Icon(Icons.call_missed),
-//                      tooltip: "Gå til neste hendelse",
-//                      backgroundColor: Styles.colorPrimary,
-//                      onPressed: () {
-//                        scrollToNextEvent();
-//                      },
-//                    )),
-//              ),
             ],
           ),
         ),
@@ -77,157 +59,127 @@ class _ProgramPageState extends State<ProgramPage> {
     );
   }
 
-  Widget _buildProgramListItem(
-      BuildContext context, DocumentSnapshot document, shouldShowNewDayLabel) {
-    var shouldShowEvent =
-        SharedPreferencesHelper.shouldShowDocument(document['track']);
-    return FutureBuilder(
-        future: shouldShowEvent,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return SizedBox.shrink();
-              break;
-            case ConnectionState.waiting:
-              return SizedBox.shrink();
-              break;
-            case ConnectionState.active:
-              return SizedBox.shrink();
-              break;
-            case ConnectionState.done:
-              if (snapshot.data) {
-                return KokaCardEvent(
-                  document: document,
-                  short: true,
-                  onTapAction: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ContentViewerPage(document)),
-                  ),
-                );
-              }
-              break;
-          }
-          return SizedBox.shrink();
-        });
+  Widget _buildProgramListItem(BuildContext context, DocumentSnapshot document,
+      shouldShowNewDayLabel, myTracks) {
+    bool shouldShowEvent = false;
+    myTracks.forEach((track) {
+      if (document['track'].toString().contains(track)) {
+        shouldShowEvent = true;
+        return;
+      }
+    });
+    return shouldShowEvent
+        ? KokaCardEvent(
+            document: document,
+            short: true,
+            onTapAction: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ContentViewerPage(document)),
+            ),
+          )
+        : SizedBox.shrink();
   }
 
   Widget programList() {
-    nextEventPosition = -70;
-    return (StreamBuilder(
+    return StreamBuilder(
         stream: Firestore.instance
             .collection(AppInfo.dbCollectionContent)
             .where("page", arrayContains: 'program')
             .orderBy("startTime")
             .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData)
+        builder: (context, documentSnapshot) {
+          if (!documentSnapshot.hasData)
             return Center(
                 child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text("Laster inn data...")));
+                    padding: EdgeInsets.all(10), child: Text("Ingen data...")));
           days = [];
           daySeparators = new List<String>();
-          return ListView.builder(
-              controller: _controller,
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) {
-//                bool shouldShowEvent =
-//                    SharedPreferencesHelper.shouldShowDocument(
-//                        snapshot.data.documents[index]['track']);
-//                print("$index $shouldShowEvent");
-                bool shouldShowNewDayLabel = index == 0 ? true : false;
-                if (index > 0) {
-                  int lastOne = index - 1;
-                  if (getDayNumberFromTimestamp(
-                          snapshot.data.documents[lastOne]["startTime"]) !=
-                      getDayNumberFromTimestamp(
-                          snapshot.data.documents[index]["startTime"])) {
-                    shouldShowNewDayLabel = true;
-                    nextEventPosition += 60;
-                  }
+          return FutureBuilder(
+              future: SharedPreferencesHelper.getMyTracks(),
+              builder: (BuildContext context, AsyncSnapshot trackSnapshot) {
+                switch (trackSnapshot.connectionState) {
+                  case ConnectionState.none:
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Text(
+                              "Ingen forbindelse",
+                              style: Styles.textEventCardHeader,
+                            ),
+                          ),
+                          Text(
+                            "Er du koblet på internett?",
+                            style: Styles.textEventCardContent,
+                          ),
+                        ],
+                      ),
+                    );
+                    break;
+                  case ConnectionState.waiting:
+                    continue loading;
+                  loading:
+                  case ConnectionState.active:
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  Styles.colorPrimary),
+                            ),
+                          ),
+                          Text(
+                            "Oppdaterer data...",
+                            style: Styles.textEventCardContent,
+                          ),
+                        ],
+                      ),
+                    );
+                    break;
+                  case ConnectionState.done:
+                    var myTracks = trackSnapshot.data;
+                    return ListView.builder(
+                        controller: _controller,
+                        itemCount: documentSnapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          bool shouldShowNewDayLabel =
+                              index == 0 ? true : false;
+                          if (index > 0) {
+                            int lastOne = index - 1;
+                            if (getDayNumberFromTimestamp(documentSnapshot
+                                    .data.documents[lastOne]["startTime"]) !=
+                                getDayNumberFromTimestamp(documentSnapshot
+                                    .data.documents[index]["startTime"])) {
+                              shouldShowNewDayLabel = true;
+                            }
+                          }
+                          return Column(
+                            children: <Widget>[
+                              shouldShowNewDayLabel
+                                  ? DayLabel(
+                                      document: documentSnapshot
+                                          .data.documents[index],
+                                    )
+                                  : SizedBox.shrink(),
+                              _buildProgramListItem(
+                                  context,
+                                  documentSnapshot.data.documents[index],
+                                  shouldShowNewDayLabel,
+                                  myTracks)
+                            ],
+                          );
+                        });
+                    break;
                 }
-//                bool shouldShowEvent =true;
-////                    SharedPreferencesHelper.shouldShowDocument(
-////                        snapshot.data.documents[index]['track']);
-//                if (shouldShowEvent) {
-//                  nextEventPosition += 80;
-//                }
-                return Column(
-                  children: <Widget>[
-                    shouldShowNewDayLabel
-                        ? DayLabel(
-                            document: snapshot.data.documents[index],
-                          )
-                        : SizedBox.shrink(),
-//                    shouldShowEvent
-//                        ?
-                    _buildProgramListItem(context,
-                        snapshot.data.documents[index], shouldShowNewDayLabel)
-//                        : SizedBox.shrink(),
-                  ],
-                );
+                return Text("Hello");
               });
-        }));
-  }
-
-  Widget _buildButtonListItem(BuildContext context, DocumentSnapshot document) {
-    // watch_your_profanity
-    String filter = getDayFromTimestamp(document["startTime"]);
-    bool active = false;
-    return GestureDetector(
-      onTap: () {
-        print("Filter on $filter");
-        setState(() {
-          active = true;
         });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: DayButton(
-            active: active,
-            date: getDayNumberFromTimestamp(document['startTime']),
-            day: getDayFromTimestamp(document["startTime"])),
-      ),
-    );
-  }
-
-  Widget dayButtonList() {
-    return (StreamBuilder(
-        stream: Firestore.instance
-            .collection(AppInfo.dbCollectionContent)
-            .where("page", arrayContains: 'program')
-            .orderBy("startTime")
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Center(child: Text("Laster inn data..."));
-          days = [];
-          return ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) {
-                String dayNumberFromTimestamp = getDayNumberFromTimestamp(
-                    snapshot.data.documents[index]["startTime"]);
-                if (!days.contains(dayNumberFromTimestamp)) {
-                  days.add(dayNumberFromTimestamp);
-                  return _buildButtonListItem(
-                      context, snapshot.data.documents[index]);
-                }
-                return SizedBox.shrink();
-              });
-        }));
-  }
-
-  void scrollToNextEvent() {
-    // Scroll to first item in the future
-    _controller.animateTo(getPositionOfActiveEvent(),
-        duration: Duration(seconds: 2), curve: ElasticOutCurve());
-  }
-
-  double getPositionOfActiveEvent() {
-    return activeEventPosition[0];
   }
 }
 

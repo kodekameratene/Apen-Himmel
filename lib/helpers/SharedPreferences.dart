@@ -63,6 +63,9 @@ class SharedPreferencesHelper {
   static Future<dynamic> getMyTracks() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var result = prefs.getStringList('MyTracks');
+    if (!result.contains("Felles")) {
+      result.add("Felles");
+    }
     return result;
   }
 
@@ -96,7 +99,6 @@ class SharedPreferencesHelper {
       if (tracksToShow.contains(track)) {
         shouldShow = true;
       }
-      return shouldShow;
     });
     return shouldShow;
   }
