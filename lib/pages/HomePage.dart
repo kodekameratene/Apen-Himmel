@@ -24,14 +24,11 @@ class HomePageState extends State<HomePage> {
     if (showWelcomeScreen) {
       return Material(
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(70),
-            child: AppBar(
-              elevation: 0,
-              title: AssetHelpers.getAppBarImage(),
-              centerTitle: true,
-              backgroundColor: Styles.colorPrimary,
-            ),
+          appBar: AppBar(
+            elevation: 0,
+            title: AssetHelpers.getAppBarImage(),
+            centerTitle: true,
+            backgroundColor: Styles.colorPrimary,
           ),
           backgroundColor: Styles.colorPrimary,
           body: SafeArea(
@@ -116,20 +113,17 @@ class HomePageState extends State<HomePage> {
     }
     return Material(
         child: Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AppBar(
-          elevation: 0,
-          title: AssetHelpers.getAppBarImage(),
-          centerTitle: true,
-          backgroundColor: Styles.colorPrimary,
-          leading: IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Application.router.navigateTo(context, '/settings',
-                  transition: TransitionType.fadeIn);
-            },
-          ),
+      appBar: AppBar(
+        elevation: 0,
+        title: AssetHelpers.getAppBarImage(),
+        centerTitle: true,
+        backgroundColor: Styles.colorPrimary,
+        leading: IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () {
+            Application.router.navigateTo(context, '/settings',
+                transition: TransitionType.fadeIn);
+          },
         ),
       ),
       backgroundColor: Styles.colorBackgroundColorMain,

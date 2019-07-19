@@ -21,13 +21,10 @@ class InfoPage extends StatelessWidget {
   Widget build(context) {
     return Material(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70),
-          child: AppBar(
-            backgroundColor: Styles.colorPrimary,
-            title: AssetHelpers.getAppBarImage(),
-            centerTitle: true,
-          ),
+        appBar: AppBar(
+          backgroundColor: Styles.colorPrimary,
+          title: AssetHelpers.getAppBarImage(),
+          centerTitle: true,
         ),
         body: StreamBuilder(
             stream: Firestore.instance

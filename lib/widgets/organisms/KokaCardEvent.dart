@@ -1,5 +1,5 @@
 import 'package:apen_himmel/helpers/convertTimeStamp_helper.dart';
-import 'package:apen_himmel/helpers/mapCategoryToColor.dart';
+import 'package:apen_himmel/helpers/mapTrackToColor.dart';
 import 'package:apen_himmel/widgets/atoms/ColorStrip.dart';
 import 'package:apen_himmel/widgets/atoms/TimeWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,12 +34,12 @@ class KokaCardEvent extends StatelessWidget {
     }
     final String title = _exists('title') ? document['title'] : '';
     final String subtitle = _exists('subtitle') ? document['subtitle'] : '';
-    final Color colorStart = _exists('category')
-        ? mapCategoryToStartColor(document['category'].toString())
-        : mapCategoryToStartColor('default');
-    final Color colorEnd = _exists('category')
-        ? mapCategoryToEndColor(document['category'].toString())
-        : mapCategoryToEndColor('default');
+    final Color colorStart = _exists('track')
+        ? mapTrackToStartColor(document['track'][0].toString())
+        : mapTrackToStartColor('default');
+    final Color colorEnd = _exists('track')
+        ? mapTrackToEndColor(document['track'][0].toString())
+        : mapTrackToEndColor('default');
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
@@ -62,7 +62,7 @@ class KokaCardEvent extends StatelessWidget {
               child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(0))),
-                color: Styles.kokaEventCardColorBackground,
+//                color: Styles.kokaEventCardColorBackground,
                 elevation: 0,
                 margin: EdgeInsets.all(0),
                 child: InkWell(
