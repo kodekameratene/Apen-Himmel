@@ -60,22 +60,24 @@ class HomePageState extends State<HomePage> {
   Widget menu() {
     return Container(
       color: Styles.colorPrimary,
-      child: TabBar(
-        indicatorColor: Styles.colorSecondary,
-        tabs: [
-          Tab(
-            text: "Nyheter",
-            icon: Icon(Icons.notifications_active),
-          ),
-          Tab(
-            text: "Program",
-            icon: Icon(Icons.calendar_today),
-          ),
-          Tab(
-            text: "Info",
-            icon: Icon(Icons.info),
-          ),
-        ],
+      child: SafeArea(
+        child: TabBar(
+          indicatorColor: Styles.colorSecondary,
+          tabs: [
+            Tab(
+              text: "Nyheter",
+              icon: Icon(Icons.notifications_active),
+            ),
+            Tab(
+              text: "Program",
+              icon: Icon(Icons.calendar_today),
+            ),
+            Tab(
+              text: "Info",
+              icon: Icon(Icons.info),
+            ),
+          ],
+        ),
       ),
     );
   }
