@@ -93,7 +93,10 @@ class ContentViewerPage extends StatelessWidget {
           SizedBox(
             height: 20.0,
           ),
-          Text(document['groupTitle'], style: Styles.textHeader),
+          Text(
+            document['groupTitle'],
+            style: TextStyle(fontSize: 20.0),
+          )
         ],
       );
     } else
