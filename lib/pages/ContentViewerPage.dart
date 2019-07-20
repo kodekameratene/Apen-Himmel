@@ -1,3 +1,5 @@
+import 'package:apen_himmel/helpers/SharedPreferences.dart';
+import 'package:apen_himmel/helpers/appInfo_helper.dart';
 import 'package:apen_himmel/helpers/asset_helpers.dart';
 import 'package:apen_himmel/widgets/molecules/KokaButton.dart';
 import 'package:apen_himmel/widgets/molecules/KokaImg.dart';
@@ -8,8 +10,6 @@ import 'package:apen_himmel/widgets/organisms/KokaCardEvent.dart';
 import 'package:apen_himmel/widgets/organisms/TimeBox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:apen_himmel/helpers/appInfo_helper.dart';
-import 'package:apen_himmel/helpers/SharedPreferences.dart';
 
 import '../styles.dart';
 

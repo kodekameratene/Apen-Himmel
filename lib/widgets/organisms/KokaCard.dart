@@ -25,13 +25,10 @@ class KokaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String hours;
-    String minutes;
     if (_exists('startTime')) {
       var startTime = convertStamp(document['startTime']);
       var formatterHours = new DateFormat('HH');
-      var formatterMinutes = new DateFormat('mm');
       hours = formatterHours.format(startTime).toString();
-      minutes = formatterMinutes.format(startTime).toString();
     }
     String timePosted;
     if (_exists('timestamp')) {

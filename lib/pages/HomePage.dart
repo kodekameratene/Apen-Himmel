@@ -1,6 +1,5 @@
 import 'package:apen_himmel/config/application.dart';
 import 'package:apen_himmel/helpers/SharedPreferences.dart';
-import 'package:apen_himmel/helpers/SharedPreferences.dart' as prefix0;
 import 'package:apen_himmel/helpers/asset_helpers.dart';
 import 'package:apen_himmel/pages/InfoPage.dart';
 import 'package:apen_himmel/pages/NewsPage.dart';
