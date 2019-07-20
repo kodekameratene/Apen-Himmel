@@ -167,6 +167,7 @@ class ContentViewerPage extends StatelessWidget {
                       return ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) => _buildSeminarItem(
                               context,
