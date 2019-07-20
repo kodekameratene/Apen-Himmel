@@ -8,6 +8,8 @@ import 'package:apen_himmel/widgets/organisms/KokaCardEvent.dart';
 import 'package:apen_himmel/widgets/organisms/TimeBox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:apen_himmel/helpers/appInfo_helper.dart';
+import 'package:apen_himmel/helpers/SharedPreferences.dart';
 
 import '../styles.dart';
 
@@ -38,6 +40,8 @@ class ContentViewerPage extends StatelessWidget {
                   buildTimeBox(),
                   buildLocationBox(),
                   buildTrackBox(),
+                  showSeminarTitle(),
+                  showSeminars(),
                 ],
               )),
         ),
@@ -82,11 +86,142 @@ class ContentViewerPage extends StatelessWidget {
           height: 10,
         );
 
+  Widget showSeminarTitle() {
+    if (_exists('groupTitle')) {
+      return Column(
+        children: <Widget>[
+          SizedBox(
+            height: 20.0,
+          ),
+          Text(
+            document['groupTitle'],
+            style: TextStyle(fontSize: 20.0),
+          )
+        ],
+      );
+    } else
+      return SizedBox.shrink();
+  }
+
+  Widget showSeminars() {
+    if (_exists('header')) {
+      String group = document['group'][0].toString();
+      print(group);
+      return StreamBuilder(
+          stream: Firestore.instance
+              .collection(AppInfo.dbCollectionContent)
+              .where("group", arrayContains: group)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(child: Text("Laster inn data..."));
+            return FutureBuilder(
+                future: SharedPreferencesHelper.getMyTracks(),
+                builder: (BuildContext context, AsyncSnapshot trackSnapshot) {
+                  switch (trackSnapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(
+                                "Ingen forbindelse",
+                                style: Styles.textEventCardHeader,
+                              ),
+                            ),
+                            Text(
+                              "Er du koblet på internett?",
+                              style: Styles.textEventCardContent,
+                            ),
+                          ],
+                        ),
+                      );
+                      break;
+                    case ConnectionState.waiting:
+                      continue loading;
+                    loading:
+                    case ConnectionState.active:
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Styles.colorPrimary),
+                              ),
+                            ),
+                            Text(
+                              "Oppdaterer data...",
+                              style: Styles.textEventCardContent,
+                            ),
+                          ],
+                        ),
+                      );
+                      break;
+                    case ConnectionState.done:
+                      var myTracks = trackSnapshot.data;
+                      return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) => _buildSeminarItem(
+                              context,
+                              snapshot.data.documents[index],
+                              myTracks));
+                      break;
+                  }
+                  return Text("Hello");
+                });
+          });
+    }
+    return SizedBox.shrink();
+  }
+
   /// Checks if the document have a field
   /// that matches the provided string.
   /// Returns True if the string does exist,
   /// and False if not.
   _exists(String s) {
     return ((document[s] ?? '') != '');
+  }
+
+  Widget _buildSeminarItem(
+      BuildContext context, DocumentSnapshot document, myTracks) {
+    bool shouldShowDocument = false;
+    myTracks.forEach((track) {
+      bool isSub = !((document['header'] ?? '') != '');
+
+      if (document['track'].toString().contains(track) && isSub) {
+        shouldShowDocument = true;
+        return;
+      }
+    });
+
+    bool hasStartTime = ((document['startTime'] ?? '') != '');
+
+    if (hasStartTime) {
+      return shouldShowDocument
+          ? KokaCardEvent(
+              document: document,
+              short: true,
+              onTapAction: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ContentViewerPage(document))))
+          : SizedBox.shrink();
+    } else
+      return shouldShowDocument
+          ? KokaCard(
+              document: document,
+              short: true,
+              onTapAction: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ContentViewerPage(document))))
+          : SizedBox.shrink();
   }
 }
