@@ -27,33 +27,34 @@ class HomePageState extends State<HomePage> {
       return buildWelcomeScreen();
     }
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: AssetHelpers.getAppBarImage(),
-          centerTitle: true,
-          backgroundColor: Styles.colorPrimary,
-          leading: IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Application.router.navigateTo(context, '/settings',
-                  transition: TransitionType.fadeIn);
-            },
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              title: AssetHelpers.getAppBarImage(),
+              centerTitle: true,
+              backgroundColor: Styles.colorPrimary,
+              leading: IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Application.router.navigateTo(context, '/settings',
+                      transition: TransitionType.fadeIn);
+                },
+              ),
+            ),
+            bottomNavigationBar: menu(),
+            backgroundColor: Styles.colorBackgroundColorMain,
+            body: TabBarView(
+              children: <Widget>[
+                Container(child: NewsPage()),
+                Container(child: ProgramPage()),
+                Container(child: InfoPage()),
+              ],
+            ),
           ),
-        ),
-        bottomNavigationBar: menu(),
-        backgroundColor: Styles.colorBackgroundColorMain,
-        body: TabBarView(
-          children: <Widget>[
-            Container(child: NewsPage()),
-            Container(child: ProgramPage()),
-            Container(child: InfoPage()),
-          ],
-        ),
-      ),
-    ));
+        ));
   }
 
   Widget menu() {
