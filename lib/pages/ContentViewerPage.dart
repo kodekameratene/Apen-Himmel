@@ -40,6 +40,7 @@ class ContentViewerPage extends StatelessWidget {
                   buildTimeBox(),
                   buildLocationBox(),
                   buildTrackBox(),
+                  showSeminarTitle(),
                   showSeminars(),
                 ],
               )),
@@ -84,6 +85,20 @@ class ContentViewerPage extends StatelessWidget {
       : Container(
           height: 10,
         );
+
+  Widget showSeminarTitle() {
+    if (_exists('groupTitle')) {
+      return Column(
+        children: <Widget>[
+          SizedBox(
+            height: 20.0,
+          ),
+          Text(document['groupTitle'], style: Styles.textHeader),
+        ],
+      );
+    } else
+      return SizedBox.shrink();
+  }
 
   Widget showSeminars() {
     if (_exists('header')) {
