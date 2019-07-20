@@ -66,6 +66,10 @@ abstract class Styles {
   static var colorAccentTrackTeltetStart = Color(0xff30302F);
   static var colorAccentTrackTeltetEnd = Color(0xffFAFA00);
 
+  static var colorAccentTrackDeveloperStart = Color(0xffFAFA00);
+  static var colorAccentTrackDeveloperEnd = Color(0xff30302F);
+
+
   ////////////////////////////////////////////////////////
 
   // Images

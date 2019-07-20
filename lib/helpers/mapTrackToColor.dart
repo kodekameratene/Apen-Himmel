@@ -26,6 +26,9 @@ Color mapTrackToStartColor(String track) {
   if (track.contains('Felles')) {
     return Styles.colorAccentTrackFellesStart;
   }
+  if (track.contains('Developer')) {
+    return Styles.colorAccentTrackDeveloperStart;
+  }
   return Styles.colorPrimary;
 }
 
@@ -52,6 +55,9 @@ Color mapTrackToEndColor(String track) {
   }
   if (track.contains('Felles')) {
     return Styles.colorAccentTrackFellesEnd;
+  }
+  if (track.contains('Developer')) {
+    return Styles.colorAccentTrackDeveloperEnd;
   }
   return Styles.colorSecondary;
 }
