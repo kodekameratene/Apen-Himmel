@@ -234,3 +234,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/code,dart,linux,macos,windows,flutter,intellij
 *.iml
 .idea/codeStyles/Project.xml
+*.iml
