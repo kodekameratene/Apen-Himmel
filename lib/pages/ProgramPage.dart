@@ -6,6 +6,8 @@ import 'package:apen_himmel/widgets/organisms/KokaCardEvent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:apen_himmel/widgets/organisms/ExpandableKokaCardEvent2.dart';
+import 'package:apen_himmel/helpers/existInDatabase_helper.dart';
 
 import '../styles.dart';
 import 'ContentViewerPage.dart';
@@ -42,6 +44,19 @@ class _ProgramPageState extends State<ProgramPage> {
                   ),
                 ],
               ),
+//              Padding(
+//                padding: const EdgeInsets.all(10),
+//                child: Align(
+//                    alignment: Alignment(1, 1),
+//                    child: FloatingActionButton(
+//                      child: Icon(Icons.call_missed),
+//                      tooltip: "Gå til neste hendelse",
+//                      backgroundColor: Styles.colorPrimary,
+//                      onPressed: () {
+//                        scrollToNextEvent();
+//                      },
+//                    )),
+//              ),
             ],
           ),
         ),
@@ -50,26 +65,30 @@ class _ProgramPageState extends State<ProgramPage> {
     );
   }
 
+
   Widget _buildProgramListItem(BuildContext context, DocumentSnapshot document,
-      shouldShowNewDayLabel, myTracks) {
-    bool shouldShowDocument = false;
-    myTracks.forEach((track) {
-      if (document['track'].toString().contains(track.toString())) {
-        shouldShowDocument = true;
-        return;
-      }
-    });
-    return shouldShowDocument
-        ? KokaCardEvent(
-            document: document,
-            short: true,
-            onTapAction: () => Navigator.push(
+      shouldShowNewDayLabel) {
+    if (Exists(document, 'group')) {
+      return (ExpandableKokaCardEvent(
+          document: document,
+          short: true,
+          onTapAction: () =>
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ContentViewerPage(document)),
+              )));
+    } else
+      return KokaCardEvent(
+        document: document,
+        short: true,
+        onTapAction: () =>
+            Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ContentViewerPage(document)),
             ),
-          )
-        : SizedBox.shrink();
+      );
   }
 
   Widget programList() {
@@ -140,11 +159,11 @@ class _ProgramPageState extends State<ProgramPage> {
                         itemCount: documentSnapshot.data.documents.length,
                         itemBuilder: (context, index) {
                           bool shouldShowNewDayLabel =
-                              index == 0 ? true : false;
+                          index == 0 ? true : false;
                           if (index > 0) {
                             int lastOne = index - 1;
                             if (getDayNumberFromTimestamp(documentSnapshot
-                                    .data.documents[lastOne]["startTime"]) !=
+                                .data.documents[lastOne]["startTime"]) !=
                                 getDayNumberFromTimestamp(documentSnapshot
                                     .data.documents[index]["startTime"])) {
                               shouldShowNewDayLabel = true;
@@ -154,23 +173,55 @@ class _ProgramPageState extends State<ProgramPage> {
                             children: <Widget>[
                               shouldShowNewDayLabel
                                   ? DayLabel(
-                                      document: documentSnapshot
-                                          .data.documents[index],
-                                    )
+                                document: documentSnapshot
+                                    .data.documents[index],
+                              )
                                   : SizedBox.shrink(),
-                              _buildProgramListItem(
-                                  context,
-                                  documentSnapshot.data.documents[index],
-                                  shouldShowNewDayLabel,
-                                  myTracks)
+                              _buildExpandableContent(seminars[0]),
                             ],
                           );
                         });
                     break;
                 }
-                return Text("Hello");
+/*                return new ExpansionTile(
+                  title: new Text(snapshot.data.documents[index]['title'], style: new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),),
+                  children: <Widget>[
+                    new Column(
+                      children: _buildExpandableContent(seminars[1]),
+                    ),
+                  ],
+                );*/
+                return SizedBox.shrink();
               });
         });
+  }
+
+  _buildExpandableContent(Vehicle seminar) {
+    List<Widget> columnContent = [];
+
+    for (String content in seminar.contents)
+      columnContent.add(
+        new ListTile(
+            title: new Text(
+              content, style: new TextStyle(fontSize: 18.0),)
+        ),
+      );
+
+    return columnContent;
+  }
+
+  Widget _buildButtonListItem(BuildContext context, DocumentSnapshot document) {
+    // watch_your_profanity
+    String filter = getDayFromTimestamp(document["startTime"]);
+    bool active = false;
+    return GestureDetector(
+        onTap: ()
+    {
+      print("Filter on $filter");
+      setState(() {
+        active = true;
+      });
+    });
   }
 }
 
@@ -191,4 +242,27 @@ class DayLabel extends StatelessWidget {
       ),
     );
   }
+
 }
+
+
+class Vehicle {
+  final String title;
+  List<String> contents = [];
+  final IconData icon;
+
+  Vehicle(this.title, this.contents, this.icon);
+}
+
+List<Vehicle> seminars = [
+  new Vehicle(
+    'Seminarbolk 1',
+    [],
+    Icons.motorcycle,
+  ),
+  new Vehicle(
+    'Seminarbolk 2',
+    ['Seminar no. 3', 'Seminar no. 4', 'Seminar no. 6'],
+    Icons.directions_car,
+  ),
+];
