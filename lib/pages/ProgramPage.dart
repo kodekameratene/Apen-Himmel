@@ -12,6 +12,9 @@ import 'ContentViewerPage.dart';
 
 class ProgramPage extends StatefulWidget {
   @override
+  Key get key => PageStorageKey<String>("ProgramPage");
+
+  @override
   _ProgramPageState createState() => _ProgramPageState();
 }
 
@@ -25,7 +28,7 @@ class _ProgramPageState extends State<ProgramPage> {
 
   @override
   void initState() {
-    _controller = ScrollController();
+    _controller = ScrollController(keepScrollOffset: true);
     super.initState();
   }
 
@@ -63,11 +66,13 @@ class _ProgramPageState extends State<ProgramPage> {
         ? KokaCardEvent(
             document: document,
             short: true,
-            onTapAction: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ContentViewerPage(document)),
-            ),
+            onTapAction: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ContentViewerPage(document)),
+              );
+            },
           )
         : SizedBox.shrink();
   }
