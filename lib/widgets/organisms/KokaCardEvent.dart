@@ -33,7 +33,10 @@ class KokaCardEvent extends StatelessWidget {
       minutes = formatterMinutes.format(startTime).toString();
     }
     final String title = _exists('title') ? document['title'] : '';
-    final String subtitle = _exists('subtitle') ? document['subtitle'] : '';
+    final String subtitle = _exists('subtitle') ? document['subtitle'] : null;
+    final String track = _exists('track') ? document['track'][0] : '';
+    final String location =
+        _exists('location') ? "| ${document['location']}" : '';
     final Color colorStart = _exists('track')
         ? mapTrackToStartColor(document['track'][0].toString())
         : mapTrackToStartColor('default');
@@ -41,7 +44,7 @@ class KokaCardEvent extends StatelessWidget {
         ? mapTrackToStartColor(document['track'][0].toString())
         : mapTrackToStartColor('default');
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -49,6 +52,7 @@ class KokaCardEvent extends StatelessWidget {
             colorStart: colorStart,
             colorEnd: colorEnd,
             vertical: true,
+            length: subtitle != null ? 72 : null,
           ),
           Expanded(
             child: Container(
@@ -68,7 +72,7 @@ class KokaCardEvent extends StatelessWidget {
                 child: InkWell(
                     splashColor: Styles.colorPrimary,
                     child: Container(
-                        height: short ? 60 : null,
+//                        height: short ? 60: null,
                         margin: EdgeInsets.fromLTRB(18, 8, 20, 10),
                         child: Row(
                           children: <Widget>[
@@ -78,12 +82,33 @@ class KokaCardEvent extends StatelessWidget {
                             ),
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.only(left: 18, top: 5),
+                                padding: EdgeInsets.only(
+                                    left: 18, top: 4, bottom: 4),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     buildTitle(title, short),
-                                    buildSubtitle(subtitle, short),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2, bottom: 2),
+                                      child: Text(
+                                        "$track $location",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        softWrap: true,
+                                      ),
+                                    ),
+//                                    subtitle != null
+//                                        ? Text(
+//                                            "$subtitle",
+//                                            overflow: TextOverflow.ellipsis,
+//                                            maxLines: 1,
+//                                            softWrap: true,
+//                                          )
+//                                        : SizedBox.shrink(),
+                                    subtitle != null
+                                        ? buildSubtitle("$subtitle", short)
+                                        : SizedBox.shrink(),
                                   ],
                                 ),
                               ),
@@ -118,14 +143,19 @@ class KokaCardEvent extends StatelessWidget {
       return SizedBox.shrink();
     }
     if (short) {
-      return Text(formatText(subtitle),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-          softWrap: true,
-          style: Styles.textEventCardContent);
+      return Text(
+        formatText(subtitle),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        softWrap: true,
+//          style: Styles.textEventCardContent
+      );
     } else {
-      return Text(formatText(subtitle),
-          softWrap: true, style: Styles.textEventCardContent);
+      return Text(
+        formatText(subtitle),
+        softWrap: true,
+//          style: Styles.textEventCardContent
+      );
     }
   }
 

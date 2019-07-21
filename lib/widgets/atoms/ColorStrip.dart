@@ -20,7 +20,7 @@ class ColorStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     if (vertical) {
       return Container(
-        height: length != null ? length : 62,
+        height: length != null ? length : 66,
         decoration: new BoxDecoration(
           gradient: new LinearGradient(
             colors: [
