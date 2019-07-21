@@ -81,7 +81,10 @@ class KokaCard extends StatelessWidget {
                               hours != null
                                   ? SizedBox.shrink()
                                   : _title(title, short),
-                              _content(content, subtitle, short),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: _content(content, subtitle, short),
+                              ),
                               TimePostedField(timePosted: timePosted),
                             ],
                           ),
