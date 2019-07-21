@@ -38,7 +38,7 @@ class ContentViewerPage extends StatelessWidget {
                   buildKokaCard(),
                   buildKokaButton(),
                   buildTimeBox(),
-//                  buildLocationBox(),
+                  buildLocationBox(),
 //                  buildTrackBox(),
                   showSeminarTitle(),
                   showSeminars(),
@@ -55,8 +55,9 @@ class ContentViewerPage extends StatelessWidget {
     return SizedBox.shrink();
   }
 
-  Widget buildLocationBox() =>
-      _exists('location') ? LocationBox(document: document) : SizedBox.shrink();
+  Widget buildLocationBox() => _exists('location') && !_exists('startTime')
+      ? LocationBox(document: document)
+      : SizedBox.shrink();
 
   Widget buildTimeBox() =>
       _exists('endTime') ? TimeBox(document: document) : SizedBox.shrink();
