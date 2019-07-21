@@ -1,4 +1,4 @@
-package com.example.apen_himmel;
+package com.imikirken.apenhimmel;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

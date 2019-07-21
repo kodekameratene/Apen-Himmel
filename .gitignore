@@ -235,3 +235,7 @@ $RECYCLE.BIN/
 *.iml
 .idea/codeStyles/Project.xml
 *.iml
+
+#Secret signing stuff for Android
+android/key.properties
+
