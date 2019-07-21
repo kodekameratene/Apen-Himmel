@@ -69,7 +69,6 @@ abstract class Styles {
   static var colorAccentTrackDeveloperStart = Color(0xffFAFA00);
   static var colorAccentTrackDeveloperEnd = Color(0xff30302F);
 
-
   ////////////////////////////////////////////////////////
 
   // Images
@@ -86,10 +85,10 @@ abstract class Styles {
   static var textCardHeader =
       TextStyle(fontSize: 20, fontFamily: "Lato", fontWeight: FontWeight.bold);
   static var textCardContent = TextStyle(
-      fontSize: 12, fontFamily: "Lao Sangam MN", fontWeight: FontWeight.normal);
+      fontSize: 12, fontFamily: "Lato", fontWeight: FontWeight.normal);
   static var textCardTimePosted = TextStyle(
     fontSize: 12,
-    fontFamily: "Lao Sangam MN",
+    fontFamily: "Lato",
     fontWeight: FontWeight.w100,
     color: Colors.black38,
   );
@@ -111,7 +110,7 @@ abstract class Styles {
     fontWeight: FontWeight.w100,
   );
   static var textEventCardContent = TextStyle(
-      fontSize: 18, fontFamily: "Lao Sangam MN", fontWeight: FontWeight.normal);
+      fontSize: 18, fontFamily: "Lato", fontWeight: FontWeight.normal);
 
   static var textEventCardTimeHours =
       TextStyle(fontFamily: "Didot", fontSize: 20, fontWeight: FontWeight.bold);
@@ -121,14 +120,14 @@ abstract class Styles {
   static var kokaCardNewsTextHeader =
       TextStyle(fontSize: 20, fontFamily: "Lato", fontWeight: FontWeight.bold);
   static var kokaCardNewsTextContent = TextStyle(
-      fontSize: 18, fontFamily: "Lao Sangam MN", fontWeight: FontWeight.normal);
+      fontSize: 18, fontFamily: "Lato", fontWeight: FontWeight.normal);
 
   static var kokaCardNewsTextTopRight =
       TextStyle(color: Color.fromRGBO(0, 0, 0, 0.4), fontSize: 12);
 
   static var textTimeBoxDay = TextStyle(
     fontSize: 12,
-    fontFamily: "Lao Sangam MN",
+    fontFamily: "Lato",
     fontWeight: FontWeight.w400,
     color: Colors.black,
   );
