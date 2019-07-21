@@ -52,6 +52,7 @@ Can launch urls or your own provided onTap method.
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
                     )),
               ),
             ],
