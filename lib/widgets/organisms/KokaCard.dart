@@ -37,6 +37,7 @@ class KokaCard extends StatelessWidget {
       timePosted = formatter.format(timestamp).toString();
     }
     final String title = document['title'] ?? '';
+    final String subtitle = document['subtitle'] ?? '';
     final String content = document['content'] ?? '';
     final Color colorStart = _exists('track')
         ? mapTrackToStartColor(document['track'][0].toString())
@@ -80,7 +81,7 @@ class KokaCard extends StatelessWidget {
                               hours != null
                                   ? SizedBox.shrink()
                                   : _title(title, short),
-                              _content(content, short),
+                              _content(content, subtitle, short),
                               TimePostedField(timePosted: timePosted),
                             ],
                           ),
@@ -141,7 +142,14 @@ Text _title(String title, bool short) {
   return Text(title, style: Styles.kokaCardNewsTextHeader);
 }
 
-Text _content(String content, bool short) {
+Text _content(String content, String subtitle, bool short) {
+  if (subtitle != '' && short) {
+    return Text(formatText(subtitle),
+        maxLines: 2,
+        softWrap: true,
+        overflow: TextOverflow.ellipsis,
+        style: Styles.kokaCardNewsTextContent);
+  }
   if (short) {
     return Text(formatText(content),
         maxLines: 2,
