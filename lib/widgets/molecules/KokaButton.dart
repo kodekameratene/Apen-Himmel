@@ -79,6 +79,10 @@ Can launch urls or your own provided onTap method.
       String formattedURL = url.split('/')[2];
       return 'Besøk nettside | $formattedURL';
     }
+    if (url.contains('tel')) {
+      String formattedURL = url.split(':')[1];
+      return 'Ring $formattedURL';
+    }
     return url;
   }
 }
