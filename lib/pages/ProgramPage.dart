@@ -67,10 +67,10 @@ class _ProgramPageState extends State<ProgramPage> {
             document: document,
             short: true,
             onTapAction: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ContentViewerPage(document)),
-              ),
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ContentViewerPage(document)),
+            ),
           )
         : SizedBox.shrink();
   }
