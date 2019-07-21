@@ -25,9 +25,6 @@ class LocationBox extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Container(
         color: Styles.kokaEventCardColorBackground,
-        height: 100,
-        padding:
-        const EdgeInsets.only(top: 20, bottom: 10, left: 10, right: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
