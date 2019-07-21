@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: Styles.colorBackgroundColorMain,
         appBar: AppBar(
           title: Text(
-            "Instillinger",
+            "Innstillinger",
             style: Styles.textAppBar,
           ),
           centerTitle: true,
