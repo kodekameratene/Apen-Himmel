@@ -123,6 +123,8 @@ class HomePageState extends State<HomePage> {
                     Divider(height: 0),
                     PushSwitch(pushKey: 'TweensCamp'),
                     Divider(height: 0),
+                    PushSwitch(pushKey: 'MiniCamp'),
+                    Divider(height: 0),
                     PushSwitch(pushKey: 'TELTET'),
                     Divider(),
                     Padding(

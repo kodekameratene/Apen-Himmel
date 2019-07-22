@@ -58,6 +58,10 @@ abstract class Styles {
   static var colorAccentTrackKidsCampStart = Color(0xff8080FF);
   static var colorAccentTrackKidsCampEnd = Color(0xffE5F4E3);
 
+  // MiniCamp
+  static var colorAccentTrackMiniCampStart = Color(0xffa8328f);
+  static var colorAccentTrackMiniCampEnd = Color(0xffa8328f);
+
   // TweensCamp
   static var colorAccentTrackTweensCampStart = Color(0xffEB7D34);
   static var colorAccentTrackTweensCampEnd = Color(0xffE5F4E3);
