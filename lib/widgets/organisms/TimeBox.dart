@@ -47,7 +47,7 @@ class TimeBox extends StatelessWidget {
       location = document['location'];
     }
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+      padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -67,7 +67,6 @@ class TimeBox extends StatelessWidget {
                 elevation: 0,
                 margin: EdgeInsets.all(0),
                 child: Container(
-                    margin: EdgeInsets.fromLTRB(18, 8, 20, 10),
                     child: buildTimeContent(
                         startHours,
                         startMinutes,
