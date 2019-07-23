@@ -44,7 +44,7 @@ class KokaCardEvent extends StatelessWidget {
         ? mapTrackToStartColor(document['track'][0].toString())
         : mapTrackToStartColor('default');
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -66,13 +66,11 @@ class KokaCardEvent extends StatelessWidget {
               child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(0))),
-//                color: Styles.kokaEventCardColorBackground,
                 elevation: 0,
                 margin: EdgeInsets.all(0),
                 child: InkWell(
                     splashColor: Styles.colorPrimary,
                     child: Container(
-//                        height: short ? 60: null,
                         margin: EdgeInsets.fromLTRB(18, 8, 20, 10),
                         child: Row(
                           children: <Widget>[
@@ -98,14 +96,6 @@ class KokaCardEvent extends StatelessWidget {
                                         softWrap: true,
                                       ),
                                     ),
-//                                    subtitle != null
-//                                        ? Text(
-//                                            "$subtitle",
-//                                            overflow: TextOverflow.ellipsis,
-//                                            maxLines: 1,
-//                                            softWrap: true,
-//                                          )
-//                                        : SizedBox.shrink(),
                                     subtitle != null
                                         ? buildSubtitle("$subtitle", short)
                                         : SizedBox.shrink(),

@@ -20,6 +20,9 @@ Color mapTrackToStartColor(String track) {
   if (track.contains('TweensCamp')) {
     return Styles.colorAccentTrackTweensCampStart;
   }
+  if (track.contains('MiniCamp')) {
+    return Styles.colorAccentTrackMiniCampStart;
+  }
   if (track.contains('TELTET')) {
     return Styles.colorAccentTrackTeltetStart;
   }
@@ -49,6 +52,9 @@ Color mapTrackToEndColor(String track) {
   }
   if (track.contains('TweensCamp')) {
     return Styles.colorAccentTrackTweensCampEnd;
+  }
+  if (track.contains('MiniCamp')) {
+    return Styles.colorAccentTrackMiniCampEnd;
   }
   if (track.contains('Teltet')) {
     return Styles.colorAccentTrackTeltetEnd;
